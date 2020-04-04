@@ -7,11 +7,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+//keep behavior of the UI out of this class (put it in the controller)
 public class StudentManagerUI {
 
 	private JFrame frame;
-//	private JTextField textField;
+//	private JTextField textField; //add these to use an element like text fields or buttons
 	private StudentToolController controller;
 
 	/**
@@ -29,7 +32,7 @@ public class StudentManagerUI {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the application.
 	 */
@@ -52,6 +55,13 @@ public class StudentManagerUI {
 
 		
 		JButton btnNewButton = new JButton("Button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//a
+				System.out.print();
+			}
+		});
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
