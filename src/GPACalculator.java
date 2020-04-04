@@ -1,23 +1,32 @@
 import java.util.Scanner;
 
 public class GPACalculator {
+	
+	public static double numOfCourses = 0.0;
+	public static String courseGrade = "";
+	public static double courseCredits = 0.0;
+	public static double totalCredits = 0.0;
+	public static double rawTotalPoints = 0;
+	
+	
 	public static void main(String [ ] args) {
 		
-		double numOfCourses = 0.0;
-		String courseGrade = "";
-		double courseCredits = 0.0;
-		double totalCredits = 0.0;
-		double rawTotalPoints = 0;
-		
 		Scanner console = new Scanner(System.in);
-		
+
 		//User inputs the number of courses they are taking in order to begin GPA calculation
 		System.out.print("Enter the number of courses you are taking this semester: ");
 		
-		numOfCourses = console.nextDouble();
+		double courses = console.nextDouble();
 		
 		//Loop through each course and determine the GPA for that course based on information the user gives
-		for(int i = 0; i < numOfCourses; i++) {
+		calculateGPA(courses);
+	}
+	
+	public static double calculateGPA(double courses) {
+		
+		Scanner console = new Scanner(System.in);
+
+		for(int i = 0; i < courses; i++) {
 			System.out.print("Enter the letter grade you recieved for course " + (i + 1) + ": ");
 			courseGrade = console.next();
 			System.out.print("Enter the number of credits you recieved for course " + (i + 1) + ": ");
@@ -69,5 +78,7 @@ public class GPACalculator {
 		
 		//User GPA is the number of raw total GPA points divided by the number of credits they took
 		System.out.println("Your GPA for the semester is: " + rawTotalPoints / totalCredits);
+		
+		return rawTotalPoints / totalCredits;
 	}
 }
