@@ -10,7 +10,7 @@ public class GPACalculator {
 	
 	
 	public static void main(String [ ] args) {
-		
+		 
 		Scanner console = new Scanner(System.in);
 
 		//User inputs the number of courses they are taking in order to begin GPA calculation
