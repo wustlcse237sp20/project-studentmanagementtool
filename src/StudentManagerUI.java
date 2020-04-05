@@ -32,7 +32,7 @@ import javax.swing.JTabbedPane;
 public class StudentManagerUI {
 
 	private JFrame frame;
-//	private JTextField textField; //add these to use an element like text fields or buttons
+//	private JTextField textField; //add these to use an element like text fields or button
 	private StudentToolController controller;
 	private JTextField txtCovidStudentManagement;
 	private JTextField txtNewsFeed;
