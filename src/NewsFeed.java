@@ -46,7 +46,7 @@ public class NewsFeed {
 
     @Override
     public String toString() {
-    	return "Feed [" + title + ", " + description
+    	return "NewsFeed [" + title + ", " + description
                 + ", " + link + "]";
     }
 
