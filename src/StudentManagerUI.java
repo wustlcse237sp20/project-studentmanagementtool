@@ -144,7 +144,7 @@ public class StudentManagerUI {
 		txtNewsFeed.setForeground(Color.white);
 		txtNewsFeed.setColumns(10);
 		txtNewsFeed.setHorizontalAlignment(JTextField.CENTER);
-//test
+
 
 		
 	}
