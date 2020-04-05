@@ -166,11 +166,6 @@ public class StudentManagerUI {
 		txtNewsFeed.setForeground(Color.white);
 		txtNewsFeed.setColumns(10);
 		txtNewsFeed.setHorizontalAlignment(JTextField.CENTER);
-<<<<<<< HEAD
-
-
-=======
->>>>>>> refs/remotes/origin/master
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(Color.LIGHT_GRAY);
