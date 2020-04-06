@@ -24,7 +24,7 @@ public class NewsFeed {
         return entries;
     }
     
-    public NewsItem getMessageByIndex(int index) {
+    public NewsItem getItemByIndex(int index) {
         return entries.get(index);
     }
     

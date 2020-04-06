@@ -54,22 +54,56 @@ public class ParserTest {
 	
 	@Test
 	public void failIfWrongFeedItem1Name() {
-		String parsedFeedName = testFeed.getTitle();
+		String parsedFeedName = testFeed.getItemByIndex(0).getTitle();
 		assertEquals(parsedFeedName, feedItem1Name);
 	}
 	
 	@Test
 	public void failIfWrongFeedItem1Description() {
-		String parsedFeedDescription = testFeed.getDescription();
+		String parsedFeedDescription = testFeed.getItemByIndex(0).getDescription();
 		assertEquals(parsedFeedDescription, feedItem1Description);
 	}
 	
 	@Test
 	public void failIfWrongFeedFeedItem1Link() {
-		String parsedFeedLink = testFeed.;
+		String parsedFeedLink = testFeed.getItemByIndex(0).getLink();
 		assertEquals(parsedFeedLink, feedItem1Link);
 	}
 	
+	@Test
+	public void failIfWrongFeedItem2Name() {
+		String parsedFeedName = testFeed.getItemByIndex(1).getTitle();
+		assertEquals(parsedFeedName, feedItem2Name);
+	}
 	
+	@Test
+	public void failIfWrongFeedItem2Description() {
+		String parsedFeedDescription = testFeed.getItemByIndex(1).getDescription();
+		assertEquals(parsedFeedDescription, feedItem2Description);
+	}
+	
+	@Test
+	public void failIfWrongFeedFeedItem2Link() {
+		String parsedFeedLink = testFeed.getItemByIndex(1).getLink();
+		assertEquals(parsedFeedLink, feedItem2Link);
+	}
+	
+	@Test
+	public void failIfWrongFeedItem3Name() {
+		String parsedFeedName = testFeed.getItemByIndex(2).getTitle();
+		assertEquals(parsedFeedName, feedItem3Name);
+	}
+	
+	@Test
+	public void failIfWrongFeedItem3Description() {
+		String parsedFeedDescription = testFeed.getItemByIndex(2).getDescription();
+		assertEquals(parsedFeedDescription, feedItem3Description);
+	}
+	
+	@Test
+	public void failIfWrongFeedFeedItem3Link() {
+		String parsedFeedLink = testFeed.getItemByIndex(2).getLink();
+		assertEquals(parsedFeedLink, feedItem3Link);
+	}
 
 }
