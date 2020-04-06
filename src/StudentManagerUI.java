@@ -204,7 +204,7 @@ public class StudentManagerUI{
 //		tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 //		tabbedPane_1.setBounds(0, 157, 234, 301);
 //		frame.getContentPane().add(tabbedPane_1);
-
+//
 
 	}
 }
