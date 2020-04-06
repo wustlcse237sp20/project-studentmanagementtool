@@ -48,8 +48,11 @@ public class StudentManagerUI{
 	private StudentToolController toolController;
 	private JTextField txtCovidStudentManagement;
 	private JTextField txtNewsFeed;
-	private JTabbedPane tabbedPane_1;
-	
+//<<<<<<< HEAD
+//=======
+//	private JTabbedPane tabbedPane_1;
+//	
+//>>>>>>> branch 'master' of https://github.com/wustlcse237sp20/project-studentmanagementtool.git
 
 	/**
 	 * Launch the application.
