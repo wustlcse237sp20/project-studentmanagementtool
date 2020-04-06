@@ -9,7 +9,17 @@ public class StudentToolController {
 		NewsFeed feed = parser.readFeed();
 		return feed;
 	}
-
+	
+	public DefaultListModel<String> getHeadlinesTestingMethod(NewsFeed feed) {
+//		System.out.println(feed);
+		DefaultListModel<String> headlines = new DefaultListModel<String>();
+		for (NewsItem item : feed.getMessages()) {
+			headlines.addElement(item.title);
+			
+		}
+		return headlines;
+	}
+	
 	public DefaultListModel<String> getHeadlinesFeed1() {
 		DefaultListModel<String> headlines = new DefaultListModel<String>();
 		for (NewsItem item : feed1.getMessages()) {

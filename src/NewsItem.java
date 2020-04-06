@@ -10,6 +10,7 @@ public class NewsItem {
     String link;
 
 
+
     public String getTitle() {
         return title;
     }
