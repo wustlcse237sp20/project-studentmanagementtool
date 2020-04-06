@@ -36,7 +36,6 @@ public class StudentManagerUI {
 	private StudentToolController controller;
 	private JTextField txtCovidStudentManagement;
 	private JTextField txtNewsFeed;
-	private JTabbedPane tabbedPane_1;
 
 	/**
 	 * Launch the application.
