@@ -105,5 +105,5 @@ public class ParserTest {
 		String parsedFeedLink = testFeed.getItemByIndex(2).getLink();
 		assertEquals(parsedFeedLink, feedItem3Link);
 	}
-
+////
 }
