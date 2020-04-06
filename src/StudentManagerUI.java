@@ -9,34 +9,47 @@ import javax.swing.JList;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.Point;
 import java.awt.Insets;
 import java.awt.Dimension;
 import java.awt.Component;
+import java.awt.Desktop;
+
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import java.awt.Rectangle;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
 
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
+
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
-//keep behavior of the UI out of this class (put it in the controller)
-public class StudentManagerUI {
 
+
+//keep behavior of the UI out of this class (put it in the controller)
+
+public class StudentManagerUI{
+
+	
 	private JFrame frame;
 	//	private JTextField textField; //add these to use an element like text fields or button
-	private StudentToolController controller;
+	private StudentToolController toolController;
 	private JTextField txtCovidStudentManagement;
 	private JTextField txtNewsFeed;
 	private JTabbedPane tabbedPane_1;
+	
 
 	/**
 	 * Launch the application.
@@ -71,7 +84,7 @@ public class StudentManagerUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 
-		controller = new StudentToolController();
+		toolController = new StudentToolController();
 		frame.getContentPane().setLayout(null);
 
 		//empty panel for header
@@ -93,57 +106,72 @@ public class StudentManagerUI {
 		txtCovidStudentManagement.setColumns(20);
 
 
-		//test elements for the jlist (delete before submitting)
-		DefaultListModel<String> listModel1 = new DefaultListModel<>();
-		listModel1.addElement("USA");
-		listModel1.addElement("India");
-		listModel1.addElement("Vietnam");
-		listModel1.addElement("Canada");
-		listModel1.addElement("Denmark");
-		listModel1.addElement("France");
-		listModel1.addElement("Great Britain");
-		listModel1.addElement("Japan");
-		listModel1.addElement("USA");
-		listModel1.addElement("India");
-		listModel1.addElement("Vietnam");
-		listModel1.addElement("Canada");
-
-		DefaultListModel<String> listModel2 = new DefaultListModel<>();
-		listModel2.addElement("Denmark");
-		listModel2.addElement("France");
-		listModel2.addElement("Great Britain");
-		listModel2.addElement("Japan");
-		listModel2.addElement("USA");
-		listModel2.addElement("India");
-		listModel2.addElement("Vietnam");
-		listModel2.addElement("Canada");
-		listModel2.addElement("Denmark");
-		listModel2.addElement("France");
-		listModel2.addElement("Great Britain");
-		listModel2.addElement("Japan");
+		//test elements for the jlist 
+		DefaultListModel<String> rssContainer1 = toolController.getHeadlinesFeed1();
 		
 
+		DefaultListModel<String> rssContainer2 = toolController.getHeadlinesFeed2();
+
+
 		//create list for scrollable rss feed data
-		JList<String> list1;
-		list1 = new JList<>(listModel1);
-		list1.setBackground(Color.LIGHT_GRAY);
+		JList<String> rssFeed1;
+		
+		rssFeed1 = new JList<>(rssContainer1);
+		rssFeed1.setBackground(Color.LIGHT_GRAY);
 //		JScrollPane listScroller = new JScrollPane(list1);
 //		listScroller.setPreferredSize(new Dimension(250, 80));
 //		listScroller.setBounds(0, 152, 234, 306);
 //		listScroller.setBackground(new Color(0, 102, 51));
 //		listScroller.setForeground(Color.LIGHT_GRAY);
 //		frame.getContentPane().add(listScroller);
+		
+		rssFeed1.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        if (evt.getClickCount() == 2) {
 
-		JList<String> list2;
-		list2 = new JList<>(listModel2);
-		list2.setBackground(Color.LIGHT_GRAY);
+		            // Double-click detected
+		            int index = list.locationToIndex(evt.getPoint());
+		            String itemUrl = toolController.getItemUrl(rssContainer1.elementAt(index));
+		            try {
+						Desktop.getDesktop().browse(new URI(itemUrl));
+					} catch (IOException | URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        } 
+		    }
+		});
+
+		JList<String> rssFeed2;
+		rssFeed2 = new JList<>(rssContainer2);
+		rssFeed2.setBackground(Color.LIGHT_GRAY);
 //		JScrollPane listScroller2 = new JScrollPane(list2);
 //		listScroller.setPreferredSize(new Dimension(250, 80));
 //		listScroller.setBounds(0, 152, 234, 306);
 //		listScroller.setBackground(new Color(0, 102, 51));
 //		listScroller.setForeground(Color.LIGHT_GRAY);
 //		frame.getContentPane().add(listScroller2);
+		
+		rssFeed2.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        if (evt.getClickCount() == 2) {
 
+		            // Double-click detected
+		            int index = list.locationToIndex(evt.getPoint());
+		            String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
+		            try {
+						Desktop.getDesktop().browse(new URI(itemUrl));
+					} catch (IOException | URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        } 
+		    }
+		});
+
+		
 
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -151,8 +179,8 @@ public class StudentManagerUI {
 		tabbedPane.setBounds(0, 157, 234, 301);
 		frame.getContentPane().add(tabbedPane);
 //		listScroller.setColumnHeaderView(tabbedPane);
-		tabbedPane.addTab("Tab", list1);
-		tabbedPane.addTab("Tab", list2);
+		tabbedPane.addTab("NPR News", rssFeed1);
+		tabbedPane.addTab("BBC News", rssFeed2);
 
 
 
