@@ -20,7 +20,7 @@ public class NewsFeed {
         this.description = description;
     }
 
-    public List<NewsItem> getMessages() {
+    public List<NewsItem> getItem() {
         return entries;
     }
     

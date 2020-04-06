@@ -93,7 +93,7 @@ public class RSSNewsFeedParser {
 					message.setTitle(title);
 					message.setDescription(description);
 					message.setLink(link);
-					feed.getMessages().add(message);
+					feed.getItem().add(message);
 					event = eventReader.nextEvent();
 					continue;
 				}

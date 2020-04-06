@@ -12,7 +12,7 @@ public class StudentToolController {
 
 	public DefaultListModel<String> getHeadlinesFeed1() {
 		DefaultListModel<String> headlines = new DefaultListModel<String>();
-		for (NewsItem item : feed1.getMessages()) {
+		for (NewsItem item : feed1.getItem()) {
 			headlines.addElement(item.title);
 
 		}
@@ -21,7 +21,7 @@ public class StudentToolController {
 	
 	public DefaultListModel<String> getHeadlinesFeed2() {
 		DefaultListModel<String> headlines = new DefaultListModel<String>();
-		for (NewsItem item : feed2.getMessages()) {
+		for (NewsItem item : feed2.getItem()) {
 			headlines.addElement(item.title);
 
 		}
@@ -30,12 +30,12 @@ public class StudentToolController {
 
 	public String getItemUrl(String title) {
 		String itemUrl = "";
-		for (NewsItem item : feed1.getMessages()) {
+		for (NewsItem item : feed1.getItem()) {
 			if (item.getTitle() == title) {
 				itemUrl = item.getLink();
 			}
 		}
-		for (NewsItem item : feed2.getMessages()) {
+		for (NewsItem item : feed2.getItem()) {
 			if (item.getTitle() == title) {
 					itemUrl = item.getLink();
 			}	
