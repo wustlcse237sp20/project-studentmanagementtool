@@ -14,4 +14,5 @@
   * Our interface is not complete yet, but we will be working on it. We need to work on wrapping for the news headlines, a refresh button for the news headlines, and we also need to add GUI components for our other tools.
 
 * What commands are needed to compile and run your code from the command line (or better yet, provide a script that people can use to run your program!)
-  * To run the GPA calculator, in the src folder of our project, run the command 'java GPACalculator.java' and the program will run. To run the UI interface, go to the src folder and run StudentManagerUI.java.
+  * To run the GPA calculator, in the src folder of our project, run the command 'java GPACalculator.java' and the program will run. 
+  To run the UI interface, go to the src folder and run the command 'javac StudentManagerUI.java' followed by the command 'java StudentManagerUI'
