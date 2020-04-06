@@ -9,7 +9,7 @@ public class GPACalculatorTest {
 	
 	@Test
 	public void testCalculate() {
-		System.out.println(c.calculateGPA(5));
+		System.out.println(c.calculateGPA(3));
 		
 	}
 
