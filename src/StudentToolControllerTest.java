@@ -15,13 +15,13 @@ public class StudentToolControllerTest {
 		sampleItem1.setTitle("sampleTitle1");
 		sampleItem1.setDescription("sampleDescription1");
 		sampleItem1.setLink("sampleLink1");
-		sampleFeed.getMessages().add(sampleItem1);
+		sampleFeed.getItems().add(sampleItem1);
 
 		DefaultListModel<String> testHeadlines = testController.getHeadlinesTestingMethod(sampleFeed);
 
 		DefaultListModel<String> sampleHeadlines = new DefaultListModel<String>();
 		
-		for (NewsItem item : sampleFeed.getMessages()) {
+		for (NewsItem item : sampleFeed.getItems()) {
 			sampleHeadlines.addElement(item.title);
 			
 		}
