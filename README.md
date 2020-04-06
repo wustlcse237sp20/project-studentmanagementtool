@@ -11,7 +11,7 @@
   * We still want to create an activity tracker, some sort of scheduler, and a stats page. We also need to add the tools that we created to the User Interface, so that our page can be a Toolbox like we intended.
 
 * Is there anything that you implemented but doesn't currently work?
-  * Our interface is not complete yet, but we will be working on it. We need to work on wrapping for the news headlines, a refresh button for the news headlines, and we also need to add GUI components for our other tools.
+  * Our interface is not complete yet, but we will be working on it. We need to work on wrapping for the news headlines, a refresh button for the news headlines, and we also need to add GUI components for our other tools, including the GPA calculator.
 
 * What commands are needed to compile and run your code from the command line (or better yet, provide a script that people can use to run your program!)
   * To run the GPA calculator, in the src folder of our project, run the command 'java GPACalculator.java' and the program will run. 
