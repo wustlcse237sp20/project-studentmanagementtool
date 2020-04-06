@@ -20,11 +20,11 @@ public class NewsFeed {
         this.description = description;
     }
 
-    public List<NewsItem> getMessages() {
+    public List<NewsItem> getItem() {
         return entries;
     }
     
-    public NewsItem getMessageByIndex(int index) {
+    public NewsItem getItemByIndex(int index) {
         return entries.get(index);
     }
     
