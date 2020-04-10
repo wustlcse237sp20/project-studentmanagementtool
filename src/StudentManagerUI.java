@@ -1,7 +1,7 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.SpringLayout;
+import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -11,36 +11,23 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.JTextField;
-import java.awt.Point;
-import java.awt.Insets;
-import java.awt.Dimension;
-import java.awt.Component;
 import java.awt.Desktop;
 
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
-import java.awt.Rectangle;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTree;
-
-
 import javax.swing.DefaultListModel;
-import javax.swing.SwingUtilities;
-
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 
 
 //keep behavior of the UI out of this class (put it in the controller)
 
-public class StudentManagerUI{
+public class StudentManagerUI implements ActionListener{
 
 	
 	private JFrame frame;
@@ -48,6 +35,11 @@ public class StudentManagerUI{
 	private StudentToolController toolController;
 	private JTextField txtCovidStudentManagement;
 	private JTextField txtNewsFeed;
+	private JPanel GPAPanel;
+	private JButton button;
+	private JTextField numCourses;
+	private JLabel coursesLabel;
+	private JLabel finalGPA;
 //<<<<<<< HEAD
 //=======
 //	private JTabbedPane tabbedPane_1;
@@ -107,8 +99,7 @@ public class StudentManagerUI{
 		txtCovidStudentManagement.setBackground(new Color(0, 102, 0));
 		txtCovidStudentManagement.setText("COVID-19 Student Management Tool");
 		txtCovidStudentManagement.setColumns(20);
-
-
+		
 		//test elements for the jlist 
 		DefaultListModel<String> rssContainer1 = toolController.getHeadlinesFeed1();
 		
@@ -203,11 +194,34 @@ public class StudentManagerUI{
 		scrollPane.setBorder(null);
 		scrollPane.setBounds(10, 46, 216, 83);
 		frame.getContentPane().add(scrollPane);
+	
 		
-//		tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-//		tabbedPane_1.setBounds(0, 157, 234, 301);
-//		frame.getContentPane().add(tabbedPane_1);
-//
+		//CREATING PANEL FOR GPA CALCULATOR
+		button = new JButton("Run GPA Calculator");
+		button.addActionListener(this);
+		
+		numCourses = new JTextField(16);
+		
+		coursesLabel = new JLabel("Enter the number of courses you are taking");
+		
+		GPAPanel = new JPanel();
+		GPAPanel.setBounds(490, 350, 300, 100);
+		frame.getContentPane().add(GPAPanel);
+		GPAPanel.add(coursesLabel);
+		GPAPanel.add(numCourses);
+		GPAPanel.add(button);
 
+	}
+	
+	//ACTION LISTENER - IF WE ADD MORE BUTTONS PUT THEM IN HERE IN AN ELSE-IF
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		GPACalculator gpac = new GPACalculator();
+		String action = e.getActionCommand();
+		if(action.equals("Run GPA Calculator")) {
+			finalGPA = new JLabel("Your GPA for the semester is: " + GPACalculator.calculateGPA(Integer.parseInt(numCourses.getText())));
+			GPAPanel.add(finalGPA);
+		}
 	}
 }
