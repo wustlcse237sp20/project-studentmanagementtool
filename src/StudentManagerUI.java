@@ -119,15 +119,15 @@ public class StudentManagerUI{
 		tabbedPane.addTab("NPR News", generateNewsFeed(1));
 		tabbedPane.addTab("BBC News", generateNewsFeed(2));
 		
-		//refresh button to get updated news feeds
-	    
-		JButton refreshButton = new JButton("refresh");
+		//refresh button to get updated news feeds    
+		JButton refreshButton = new JButton();
 		refreshButton.setBackground(UIManager.getColor("MenuItem.disabledBackground"));
 		
 		Image icon = new ImageIcon(this.getClass().getResource("refreshIcon.png")).getImage();
-		refreshButton.setIcon(new ImageIcon(icon));
+		Image sizedIcon = icon.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
+		refreshButton.setIcon(new ImageIcon(sizedIcon));
 		
-		refreshButton.setBounds(264, 134, 310, 216);
+		refreshButton.setBounds(174, 134, 44, 23);
 		frame.getContentPane().add(refreshButton);
 		refreshButton.addActionListener(new ActionListener() {
 			
