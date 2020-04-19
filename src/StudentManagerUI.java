@@ -183,7 +183,6 @@ public class StudentManagerUI implements ActionListener{
 	}
 
 
-	};
 
 	/** generates a list of headlines in a separate method so they can be refreshed as needed
 	 * 
