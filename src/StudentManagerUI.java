@@ -190,7 +190,7 @@ public class StudentManagerUI implements ActionListener{
 	 * @return JList object containing headlines for a newsfeed
 	 */
 	private JList generateNewsFeed(int feedNumber){
-		//initialize news feed
+		//initialize news feeds
 		if(feedNumber == 1) {
 			DefaultListModel<String> rssContainer1 = toolController.getHeadlinesFeed1();
 
