@@ -1,5 +1,6 @@
 
 
+
 /*
  * Stores information of one News Article on RSS Feed
  */
@@ -8,6 +9,7 @@ public class NewsItem {
     String title;
     String description;
     String link;
+
 
 
     public String getTitle() {
