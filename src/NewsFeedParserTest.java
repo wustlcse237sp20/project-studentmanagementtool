@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ParserTest {
+public class NewsFeedParserTest {
 
 	//Create a feed from known, non-changing XML file
 	final String feedName = "FeedForAll Sample Feed";
@@ -105,5 +105,5 @@ public class ParserTest {
 		String parsedFeedLink = testFeed.getItemByIndex(2).getLink();
 		assertEquals(parsedFeedLink, feedItem3Link);
 	}
-/////////
+
 }
