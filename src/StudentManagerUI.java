@@ -162,7 +162,7 @@ public class StudentManagerUI{
 	 * @return JList object containing headlines for a newsfeed
 	 */
 	private JList generateNewsFeed(int feedNumber){
-		//initialize news feeds
+		//initialize news feed
 		if(feedNumber == 1) {
 			DefaultListModel<String> rssContainer1 = toolController.getHeadlinesFeed1();
 
