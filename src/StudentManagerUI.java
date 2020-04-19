@@ -49,6 +49,7 @@ public class StudentManagerUI implements ActionListener{
 	private JTabbedPane tabbedPane;
 	private JList<String> rssFeed1;
 	private JList<String> rssFeed2;
+	private DefaultListModel<String> rssContainer2;
 
 
 	/**
@@ -183,7 +184,6 @@ public class StudentManagerUI implements ActionListener{
 	}
 
 
-
 	/** generates a list of headlines in a separate method so they can be refreshed as needed
 	 * 
 	 * @param feedNumber - the value of the feed to be generated
@@ -230,7 +230,8 @@ public class StudentManagerUI implements ActionListener{
 	
 			            // Double-click detected
 			            int index = list.locationToIndex(evt.getPoint());
-			            String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
+			            
+						String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
 			            try {
 							Desktop.getDesktop().browse(new URI(itemUrl));
 						} catch (IOException | URISyntaxException e) {
