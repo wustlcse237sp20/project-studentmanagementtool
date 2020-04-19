@@ -1,5 +1,6 @@
 
 
+
 /*
  * Stores information of one News Article on RSS Feed
  */

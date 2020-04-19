@@ -21,6 +21,7 @@ import java.awt.Desktop;
 
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -36,6 +37,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import java.lang.reflect.*;
+import javax.swing.UIManager;
 
 
 //keep behavior of the UI out of this class (put it in the controller)
@@ -44,15 +50,13 @@ public class StudentManagerUI{
 
 	
 	private JFrame frame;
-	//	private JTextField textField; //add these to use an element like text fields or button
 	private StudentToolController toolController;
 	private JTextField txtCovidStudentManagement;
 	private JTextField txtNewsFeed;
-//<<<<<<< HEAD
-//=======
-//	private JTabbedPane tabbedPane_1;
-//	
-//>>>>>>> branch 'master' of https://github.com/wustlcse237sp20/project-studentmanagementtool.git
+	private JTabbedPane tabbedPane;
+	private JList<String> rssFeed1;
+	private JList<String> rssFeed2;
+
 
 	/**
 	 * Launch the application.
@@ -98,7 +102,7 @@ public class StudentManagerUI{
 		header.setBackground(new Color(0, 102, 0));
 		frame.getContentPane().add(header);
 
-		//text for header
+		//text for window header
 		txtCovidStudentManagement = new JTextField();
 		txtCovidStudentManagement.setBorder(null);
 		txtCovidStudentManagement.setHorizontalAlignment(SwingConstants.CENTER);
@@ -107,85 +111,31 @@ public class StudentManagerUI{
 		txtCovidStudentManagement.setBackground(new Color(0, 102, 0));
 		txtCovidStudentManagement.setText("COVID-19 Student Management Tool");
 		txtCovidStudentManagement.setColumns(20);
-
-
-		//test elements for the jlist 
-		DefaultListModel<String> rssContainer1 = toolController.getHeadlinesFeed1();
 		
-
-		DefaultListModel<String> rssContainer2 = toolController.getHeadlinesFeed2();
-
-
-		//create list for scrollable rss feed data
-		JList<String> rssFeed1;
-		
-		rssFeed1 = new JList<>(rssContainer1);
-		rssFeed1.setBackground(Color.LIGHT_GRAY);
-//		JScrollPane listScroller = new JScrollPane(list1);
-//		listScroller.setPreferredSize(new Dimension(250, 80));
-//		listScroller.setBounds(0, 152, 234, 306);
-//		listScroller.setBackground(new Color(0, 102, 51));
-//		listScroller.setForeground(Color.LIGHT_GRAY);
-//		frame.getContentPane().add(listScroller);
-		
-		rssFeed1.addMouseListener(new MouseAdapter() {
-		    public void mouseClicked(MouseEvent evt) {
-		        JList list = (JList)evt.getSource();
-		        if (evt.getClickCount() == 2) {
-
-		            // Double-click detected
-		            int index = list.locationToIndex(evt.getPoint());
-		            String itemUrl = toolController.getItemUrl(rssContainer1.elementAt(index));
-		            try {
-						Desktop.getDesktop().browse(new URI(itemUrl));
-					} catch (IOException | URISyntaxException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		        } 
-		    }
-		});
-
-		JList<String> rssFeed2;
-		rssFeed2 = new JList<>(rssContainer2);
-		rssFeed2.setBackground(Color.LIGHT_GRAY);
-//		JScrollPane listScroller2 = new JScrollPane(list2);
-//		listScroller.setPreferredSize(new Dimension(250, 80));
-//		listScroller.setBounds(0, 152, 234, 306);
-//		listScroller.setBackground(new Color(0, 102, 51));
-//		listScroller.setForeground(Color.LIGHT_GRAY);
-//		frame.getContentPane().add(listScroller2);
-		
-		rssFeed2.addMouseListener(new MouseAdapter() {
-		    public void mouseClicked(MouseEvent evt) {
-		        JList list = (JList)evt.getSource();
-		        if (evt.getClickCount() == 2) {
-
-		            // Double-click detected
-		            int index = list.locationToIndex(evt.getPoint());
-		            String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
-		            try {
-						Desktop.getDesktop().browse(new URI(itemUrl));
-					} catch (IOException | URISyntaxException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		        } 
-		    }
-		});
-
-		
-
-
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setAutoscrolls(true);
 		tabbedPane.setBounds(0, 157, 234, 301);
 		frame.getContentPane().add(tabbedPane);
-//		listScroller.setColumnHeaderView(tabbedPane);
-		tabbedPane.addTab("NPR News", rssFeed1);
-		tabbedPane.addTab("BBC News", rssFeed2);
-
-
+		tabbedPane.addTab("NPR News", generateNewsFeed(1));
+		tabbedPane.addTab("BBC News", generateNewsFeed(2));
+		
+		//refresh button to get updated news feeds
+	    
+		JButton refreshButton = new JButton("refresh");
+		refreshButton.setBackground(UIManager.getColor("MenuItem.disabledBackground"));
+		
+		Image icon = new ImageIcon(this.getClass().getResource("refreshIcon.png")).getImage();
+		refreshButton.setIcon(new ImageIcon(icon));
+		
+		refreshButton.setBounds(264, 134, 310, 216);
+		frame.getContentPane().add(refreshButton);
+		refreshButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				refreshFeeds();
+			}
+		});
 
 		//create header for rss news feed
 		txtNewsFeed = new JTextField();
@@ -203,11 +153,77 @@ public class StudentManagerUI{
 		scrollPane.setBorder(null);
 		scrollPane.setBounds(10, 46, 216, 83);
 		frame.getContentPane().add(scrollPane);
-		
-//		tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-//		tabbedPane_1.setBounds(0, 157, 234, 301);
-//		frame.getContentPane().add(tabbedPane_1);
-//
 
-	}
+	};
+
+	/** generates a list of headlines in a separate method so they can be refreshed as needed
+	 * 
+	 * @param feedNumber - the value of the feed to be generated
+	 * @return JList object containing headlines for a newsfeed
+	 */
+	private JList generateNewsFeed(int feedNumber){
+		//initialize news feeds
+		if(feedNumber == 1) {
+			DefaultListModel<String> rssContainer1 = toolController.getHeadlinesFeed1();
+
+			rssFeed1 = new JList<>(rssContainer1);
+			rssFeed1.setBackground(Color.LIGHT_GRAY);	
+			
+			//mouselistener to open url of double clicked news item in feed 1 
+			rssFeed1.addMouseListener(new MouseAdapter() {
+			    public void mouseClicked(MouseEvent evt) {
+			        JList list = (JList)evt.getSource();
+			        if (evt.getClickCount() == 2) {
+
+			            // Double-click detected
+			            int index = list.locationToIndex(evt.getPoint());
+			            String itemUrl = toolController.getItemUrl(rssContainer1.elementAt(index));
+			            try {
+							Desktop.getDesktop().browse(new URI(itemUrl));
+						} catch (IOException | URISyntaxException e) {
+							e.printStackTrace();
+						}
+			        } 
+			    }
+			});
+			return rssFeed1;
+		}
+		else {
+			DefaultListModel<String> rssContainer2 = toolController.getHeadlinesFeed2();
+			
+			rssFeed2 = new JList<>(rssContainer2);
+			rssFeed2.setBackground(Color.LIGHT_GRAY);
+			
+			//mouselistener to open url of double clicked news item in feed 2
+			rssFeed2.addMouseListener(new MouseAdapter() {
+			    public void mouseClicked(MouseEvent evt) {
+			        JList list = (JList)evt.getSource();
+			        if (evt.getClickCount() == 2) {
+	
+			            // Double-click detected
+			            int index = list.locationToIndex(evt.getPoint());
+			            String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
+			            try {
+							Desktop.getDesktop().browse(new URI(itemUrl));
+						} catch (IOException | URISyntaxException e) {
+							e.printStackTrace();
+						}
+			        } 
+			    }
+			});
+			return rssFeed2;
+		}
+		
+	};
+	
+	private void refreshFeeds() {
+		 tabbedPane.remove(rssFeed1);
+		 tabbedPane.remove(rssFeed2);
+		 
+		 tabbedPane.addTab("NPR News", generateNewsFeed(1));
+		 tabbedPane.addTab("BBC News", generateNewsFeed(2));
+		 
+		 frame.getContentPane().repaint();
+		 frame.getContentPane().revalidate();
+	};
 }
