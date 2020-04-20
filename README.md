@@ -20,13 +20,15 @@
 ## Student Management Tool (Iteration 2)
 
   * What user stories were completed this iteration?
+    * A Covid-19 statistics table that parses the HTML of the covid-19 tracking site https://www.worldometers.info/coronavirus/country/us/ to get up to date data for the US. A table was added to the UI to visualize this information
     * A panel was created on the Student UI for the GPA Calculator tool. The GPA Calculator code was also updated for an easier user experience when using the tool. The user will now be prompted with questions in order to make for a more intuitive experience.
+    * A refresh button was added to the news feeds to be able to get up to date articles if the tool is left open for a long period of time.
 
   * What user stories do you intend to complete next iteration?
     * We still want to create an activity tracker panel and we want to clean up the other tools and the student UI page in general.
 
   * Is there anything that you implemented but doesn't currently work?
-    * Our interface is not complete yet, but we will be working on it. We need to work on wrapping for the news headlines, a refresh button for the news headlines, and we also need to add GUI components for our other tools, including the GPA calculator.
+    * Our interface is not complete yet, but we will be working on it. We need to work on wrapping for the news headlines, a refresh button for the covid-19 stats table, and we also need to add GUI components for our other tools, including the activity tracker
 
   * What commands are needed to compile and run your code from the command line (or better yet, provide a script that people can use to run your program!)
     * From now on, all the features you will need to see should be in our Student Manager UI Interface:
