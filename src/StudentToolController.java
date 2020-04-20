@@ -3,6 +3,24 @@ import javax.swing.DefaultListModel;
 public class StudentToolController {
 	private NewsFeed feed1 = getNewsFeed("https://feeds.npr.org/1001/rss.xml");
 	private NewsFeed feed2 = getNewsFeed("http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml?edition=int");
+	private CovidStats covidData;
+	private static CovidHtmlParser htmlParser;
+	
+	public String[][] pullCovidStats() {
+		htmlParser = new CovidHtmlParser();
+		CovidStats covidData = htmlParser.getData();
+		
+		String[][]uiCovidStats = new String[][] {
+			{"","Total","Today"},
+			{"Cases",covidData.getTotalCases(),covidData.getNewCases()},
+			{"Deaths",covidData.getTotalDeaths(),covidData.getNewDeaths()},
+			{"Recovered",covidData.getRecovered(),""}
+		};
+		
+		return uiCovidStats;
+	}
+	
+
 
 	public NewsFeed getNewsFeed(String url) {
 		RSSNewsFeedParser parser = new RSSNewsFeedParser(url);
