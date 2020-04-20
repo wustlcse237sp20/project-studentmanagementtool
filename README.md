@@ -33,4 +33,5 @@
   * What commands are needed to compile and run your code from the command line (or better yet, provide a script that people can use to run your program!)
     * From now on, all the features you will need to see should be in our Student Manager UI Interface:
 
-    To run the UI interface, go to the src folder and run the command 'javac StudentManagerUI.java' followed by the command 'java StudentManagerUI'
+
+    To run the UI interface, first install gradle. To do that, for windows, use the command 'apt install gradle', for mac, use the command 'brew install gradle.' Next, navigate to the src folder and run the command 'javac StudentManagerUI.java' followed by the command 'java StudentManagerUI.'
