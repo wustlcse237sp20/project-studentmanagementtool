@@ -54,8 +54,12 @@ public class StudentManagerUI implements ActionListener{
 	private JTabbedPane tabbedPane;
 	private JList<String> rssFeed1;
 	private JList<String> rssFeed2;
+
 	private JTextField textField;
 	private JTable covidStatsTable;
+
+	private DefaultListModel<String> rssContainer2;
+
 
 
 	/**
@@ -214,7 +218,6 @@ public class StudentManagerUI implements ActionListener{
 
 
 
-
 	/** generates a list of headlines in a separate method so they can be refreshed as needed
 	 * 
 	 * @param feedNumber - the value of the feed to be generated
@@ -255,6 +258,7 @@ public class StudentManagerUI implements ActionListener{
 
 			//mouselistener to open url of double clicked news item in feed 2
 			rssFeed2.addMouseListener(new MouseAdapter() {
+
 				public void mouseClicked(MouseEvent evt) {
 					JList list = (JList)evt.getSource();
 					if (evt.getClickCount() == 2) {
@@ -263,6 +267,17 @@ public class StudentManagerUI implements ActionListener{
 						int index = list.locationToIndex(evt.getPoint());
 						String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
 						try {
+
+			    public void mouseClicked(MouseEvent evt) {
+			        JList list = (JList)evt.getSource();
+			        if (evt.getClickCount() == 2) {
+	
+			            // Double-click detected
+			            int index = list.locationToIndex(evt.getPoint());
+			            
+						String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
+			            try {
+
 							Desktop.getDesktop().browse(new URI(itemUrl));
 						} catch (IOException | URISyntaxException e) {
 							e.printStackTrace();
