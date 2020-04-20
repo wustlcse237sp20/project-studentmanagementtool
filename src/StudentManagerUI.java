@@ -168,7 +168,7 @@ public class StudentManagerUI implements ActionListener{
 		covidStatsTable.setBackground(Color.LIGHT_GRAY);
 		covidStatsTable.setBounds(6, 67, 224, 64);
 		frame.getContentPane().add(covidStatsTable);
-		//
+		//sdf
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(Color.LIGHT_GRAY);
