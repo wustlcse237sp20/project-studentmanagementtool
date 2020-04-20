@@ -148,7 +148,16 @@ public class StudentManagerUI implements ActionListener{
 		txtNewsFeed.setColumns(10);
 		txtNewsFeed.setHorizontalAlignment(JTextField.CENTER);
 
-
+		textField = new JTextField();
+		textField.setBounds(0, 47, 234, 18);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		textField.setBackground(new Color(51, 102, 0));
+		textField.setText("U.S. Covid-19 Statistics");
+		textField.setBorder(javax.swing.BorderFactory.createEmptyBorder()); //remove border
+		textField.setForeground(Color.white);
+		textField.setColumns(10);
+		textField.setHorizontalAlignment(JTextField.CENTER);
 
 
 		String[][] covidData = toolController.pullCovidStats();
@@ -182,6 +191,8 @@ public class StudentManagerUI implements ActionListener{
 		GPAPanel.add(coursesLabel);
 		GPAPanel.add(numCourses);
 		GPAPanel.add(button);
+		
+		
 
 	}
 	
@@ -197,18 +208,9 @@ public class StudentManagerUI implements ActionListener{
 		}
 	}
 
-		textField = new JTextField();
-		textField.setBounds(0, 47, 234, 18);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
-		textField.setBackground(new Color(51, 102, 0));
-		textField.setText("U.S. Covid-19 Statistics");
-		textField.setBorder(javax.swing.BorderFactory.createEmptyBorder()); //remove border
-		textField.setForeground(Color.white);
-		textField.setColumns(10);
-		textField.setHorizontalAlignment(JTextField.CENTER);
+	
 
-	};    
+	 
 
 
 
@@ -285,15 +287,7 @@ public class StudentManagerUI implements ActionListener{
 		 frame.getContentPane().revalidate();
 	};
 
-		tabbedPane.remove(rssFeed1);
-		tabbedPane.remove(rssFeed2);
-
-		tabbedPane.addTab("NPR News", generateNewsFeed(1));
-		tabbedPane.addTab("BBC News", generateNewsFeed(2));
-
-		frame.getContentPane().repaint();
-		frame.getContentPane().revalidate();
-	}
+	
 	private void refreshCovidStats() {
 		frame.getContentPane().remove(covidStatsTable);
 	}
