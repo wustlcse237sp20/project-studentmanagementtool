@@ -259,15 +259,6 @@ public class StudentManagerUI implements ActionListener{
 			//mouselistener to open url of double clicked news item in feed 2
 			rssFeed2.addMouseListener(new MouseAdapter() {
 
-				public void mouseClicked(MouseEvent evt) {
-					JList list = (JList)evt.getSource();
-					if (evt.getClickCount() == 2) {
-
-						// Double-click detected
-						int index = list.locationToIndex(evt.getPoint());
-						String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
-						try {
-
 			    public void mouseClicked(MouseEvent evt) {
 			        JList list = (JList)evt.getSource();
 			        if (evt.getClickCount() == 2) {
