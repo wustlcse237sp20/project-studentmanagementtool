@@ -1,36 +1,32 @@
-import java.util.Scanner;
+import java.awt.*;
+import javax.swing.*;
 
-public class GPACalculator {
-	
+public class GPACalculator extends JPanel {
+		
 	public static double numOfCourses = 0.0;
 	public static String courseGrade = "";
 	public static double courseCredits = 0.0;
 	public static double totalCredits = 0.0;
 	public static double rawTotalPoints = 0;
+	static JFrame frame;
+	static JPanel panel;
+	static JLabel finalGPA;
 	
 	
 	public static void main(String [ ] args) {
-		 
-		Scanner console = new Scanner(System.in);
+		
+		int courses = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the number of courses you are taking this semester: "));
 
-		//User inputs the number of courses they are taking in order to begin GPA calculation
-		System.out.print("Enter the number of courses you are taking this semester: ");
-		
-		double courses = console.nextDouble();
-		
-		//Loop through each course and determine the GPA for that course based on information the user gives
 		calculateGPA(courses);
 	}
 	
 	public static double calculateGPA(double courses) {
-		
-		Scanner console = new Scanner(System.in);
 
 		for(int i = 0; i < courses; i++) {
-			System.out.print("Enter the letter grade you recieved for course " + (i + 1) + ": ");
-			courseGrade = console.next();
-			System.out.print("Enter the number of credits you recieved for course " + (i + 1) + ": ");
-			courseCredits = console.nextDouble();
+			String courseGrade = JOptionPane.showInputDialog(null, "Enter the letter grade you recieved for course " + (i + 1) + ": ");
+
+			int courseCredits = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the number of credits you recieved for course " + (i + 1) + ": "));
+
 			totalCredits += courseCredits;
 			
 			//Info taken from WashU GPA calculations
@@ -77,8 +73,20 @@ public class GPACalculator {
 		}
 		
 		//User GPA is the number of raw total GPA points divided by the number of credits they took
-		System.out.println("Your GPA for the semester is: " + rawTotalPoints / totalCredits);
+//		frame = new JFrame("GPA Calculator");
+//		panel = new JPanel();
+//		finalGPA = new JLabel("Your GPA for the semester is: " + rawTotalPoints / totalCredits);
 		
+//		frame.getContentPane().add(panel);
+//		frame.setSize(300, 100);
+//		frame.setVisible(true);
+//		frame.setResizable(false);
+		//thanks to https://stackoverflow.com/questions/2442599/how-to-set-jframe-to-appear-centered-regardless-of-monitor-resolution
+//		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//		frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+
+//		panel.add(finalGPA);
+
 		return rawTotalPoints / totalCredits;
 	}
 }
