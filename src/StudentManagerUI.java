@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SpringLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -33,13 +34,14 @@ import javax.swing.ImageIcon;
 
 import java.lang.reflect.*;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.JTable;
 
 
 //keep behavior of the UI out of this class (put it in the controller)
 
 public class StudentManagerUI implements ActionListener{
 
-	
 	private JFrame frame;
 	private StudentToolController toolController;
 	private JTextField txtCovidStudentManagement;
@@ -61,10 +63,21 @@ public class StudentManagerUI implements ActionListener{
 	private Checkbox checkbox;
 
 	//RSS feed things
+	private JPanel GPAPanel;
+	private JButton button;
+	private JTextField numCourses;
+	private JLabel coursesLabel;
+	private JLabel finalGPA;
 	private JTabbedPane tabbedPane;
 	private JList<String> rssFeed1;
 	private JList<String> rssFeed2;
 	private DefaultListModel<String> rssContainer2;
+
+	private JTextField textField;
+	private JTable covidStatsTable;
+
+	private DefaultListModel<String> rssContainer2;
+
 
 
 	/**
@@ -117,7 +130,7 @@ public class StudentManagerUI implements ActionListener{
 		txtCovidStudentManagement.setHorizontalAlignment(SwingConstants.CENTER);
 		header.add(txtCovidStudentManagement);
 		txtCovidStudentManagement.setForeground(new Color(255, 255, 255));
-		txtCovidStudentManagement.setBackground(new Color(0, 102, 0));
+		txtCovidStudentManagement.setBackground(new Color(51, 102, 0));
 		txtCovidStudentManagement.setText("COVID-19 Student Management Tool");
 		txtCovidStudentManagement.setColumns(20);
 
@@ -126,6 +139,9 @@ public class StudentManagerUI implements ActionListener{
 		DefaultListModel<String> rssContainer1 = toolController.getHeadlinesFeed1();
 
 		
+		//test elements for the jlist 
+		DefaultListModel<String> rssContainer1 = toolController.getHeadlinesFeed1();
+
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setAutoscrolls(true);
 		tabbedPane.setBounds(0, 157, 234, 301);
@@ -135,6 +151,9 @@ public class StudentManagerUI implements ActionListener{
 		
 		//refresh button to get updated news feeds
 	    
+
+		//refresh button to get updated news feeds    
+
 		JButton refreshButton = new JButton();
 		Image icon = new ImageIcon(this.getClass().getResource("refreshIcon.png")).getImage();
 		Image sizedIcon = icon.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
@@ -160,7 +179,29 @@ public class StudentManagerUI implements ActionListener{
 		txtNewsFeed.setForeground(Color.white);
 		txtNewsFeed.setColumns(10);
 		txtNewsFeed.setHorizontalAlignment(JTextField.CENTER);
+
+		textField = new JTextField();
+		textField.setBounds(0, 47, 234, 18);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		textField.setBackground(new Color(51, 102, 0));
+		textField.setText("U.S. Covid-19 Statistics");
+		textField.setBorder(javax.swing.BorderFactory.createEmptyBorder()); //remove border
+		textField.setForeground(Color.white);
+		textField.setColumns(10);
+		textField.setHorizontalAlignment(JTextField.CENTER);
+
+
+		String[][] covidData = toolController.pullCovidStats();
+		String columnSpacer[]={"","",""};         
+
+		JTable covidStatsTable = new JTable(covidData,columnSpacer);
+		covidStatsTable.setGridColor(Color.DARK_GRAY);
+		covidStatsTable.setBackground(Color.LIGHT_GRAY);
+		covidStatsTable.setBounds(6, 67, 224, 64);
+		frame.getContentPane().add(covidStatsTable);
 		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(Color.LIGHT_GRAY);
 		scrollPane.setBorder(null);
@@ -171,12 +212,17 @@ public class StudentManagerUI implements ActionListener{
 		//CREATING PANEL FOR GPA CALCULATOR
 		GPAbutton = new JButton("Run GPA Calculator");
 		GPAbutton.addActionListener(this);
+
+		button = new JButton("Run GPA Calculator");
+		button.addActionListener(this);
+
 		
 		numCourses = new JTextField(16);
 		
 		coursesLabel = new JLabel("Enter the number of courses you are taking");
 		
 		GPAPanel = new JPanel();
+
 		GPAPanel.setBounds(240, 350, 550, 100);
 		frame.getContentPane().add(GPAPanel);
 		GPAPanel.add(coursesLabel);
@@ -201,6 +247,14 @@ public class StudentManagerUI implements ActionListener{
 		ActivityDisplayPanel.setLayout(new BoxLayout(ActivityDisplayPanel, BoxLayout.Y_AXIS));
 		ActivityDisplayPanel.setBounds(240, 150, 550, 200);
 		frame.getContentPane().add(ActivityDisplayPanel);
+
+		GPAPanel.setBounds(490, 350, 300, 100);
+		frame.getContentPane().add(GPAPanel);
+		GPAPanel.add(coursesLabel);
+		GPAPanel.add(numCourses);
+		GPAPanel.add(button);
+		
+
 	}
 	
 	//ACTION LISTENER - IF WE ADD MORE BUTTONS PUT THEM IN HERE IN AN ELSE-IF
@@ -208,12 +262,14 @@ public class StudentManagerUI implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		GPACalculator gpac = new GPACalculator();
+
 		ActivityTracker at = new ActivityTracker();
-		
+
 		String action = e.getActionCommand();
 		if(action.equals("Run GPA Calculator")) {
 			finalGPA = new JLabel("Your GPA for the semester is: " + GPACalculator.calculateGPA(Integer.parseInt(numCourses.getText())));
 			GPAPanel.add(finalGPA);
+
 			frame.getContentPane().repaint();
 			frame.getContentPane().revalidate();
 		}
@@ -233,7 +289,8 @@ public class StudentManagerUI implements ActionListener{
 	}
 
 
-
+		}
+	}
 
 	/** generates a list of headlines in a separate method so they can be refreshed as needed
 	 * 
@@ -247,34 +304,44 @@ public class StudentManagerUI implements ActionListener{
 
 			rssFeed1 = new JList<>(rssContainer1);
 			rssFeed1.setBackground(Color.LIGHT_GRAY);	
-			
+
 			//mouselistener to open url of double clicked news item in feed 1 
 			rssFeed1.addMouseListener(new MouseAdapter() {
-			    public void mouseClicked(MouseEvent evt) {
-			        JList list = (JList)evt.getSource();
-			        if (evt.getClickCount() == 2) {
+				public void mouseClicked(MouseEvent evt) {
+					JList list = (JList)evt.getSource();
+					if (evt.getClickCount() == 2) {
 
-			            // Double-click detected
-			            int index = list.locationToIndex(evt.getPoint());
-			            String itemUrl = toolController.getItemUrl(rssContainer1.elementAt(index));
-			            try {
+						// Double-click detected
+						int index = list.locationToIndex(evt.getPoint());
+						String itemUrl = toolController.getItemUrl(rssContainer1.elementAt(index));
+						try {
 							Desktop.getDesktop().browse(new URI(itemUrl));
 						} catch (IOException | URISyntaxException e) {
 							e.printStackTrace();
 						}
-			        } 
-			    }
+					} 
+				}
 			});
 			return rssFeed1;
 		}
 		else {
 			DefaultListModel<String> rssContainer2 = toolController.getHeadlinesFeed2();
-			
+
 			rssFeed2 = new JList<>(rssContainer2);
 			rssFeed2.setBackground(Color.LIGHT_GRAY);
-			
+
 			//mouselistener to open url of double clicked news item in feed 2
 			rssFeed2.addMouseListener(new MouseAdapter() {
+
+				public void mouseClicked(MouseEvent evt) {
+					JList list = (JList)evt.getSource();
+					if (evt.getClickCount() == 2) {
+
+						// Double-click detected
+						int index = list.locationToIndex(evt.getPoint());
+						String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
+						try {
+
 			    public void mouseClicked(MouseEvent evt) {
 			        JList list = (JList)evt.getSource();
 			        if (evt.getClickCount() == 2) {
@@ -284,20 +351,26 @@ public class StudentManagerUI implements ActionListener{
 			            
 						String itemUrl = toolController.getItemUrl(rssContainer2.elementAt(index));
 			            try {
+
 							Desktop.getDesktop().browse(new URI(itemUrl));
 						} catch (IOException | URISyntaxException e) {
 							e.printStackTrace();
 						}
-			        } 
-			    }
+					} 
+				}
 			});
 			return rssFeed2;
 		}
-		
+
 	};
-	
+
 	private void refreshFeeds() {
+
 		tabbedPane.remove(rssFeed1);
+
+
+		 tabbedPane.remove(rssFeed1);
+
 		 tabbedPane.remove(rssFeed2);
 		 
 		 tabbedPane.addTab("NPR News", generateNewsFeed(1));
@@ -305,6 +378,7 @@ public class StudentManagerUI implements ActionListener{
 		 
 		 frame.getContentPane().repaint();
 		 frame.getContentPane().revalidate();
+
 	
 
 		tabbedPane.remove(rssFeed1);
@@ -319,5 +393,13 @@ public class StudentManagerUI implements ActionListener{
 	//private void refreshCovidStats() {
 	//	frame.getContentPane().remove(covidStatsTable);
 	//}
+
+	};
+
+	
+	private void refreshCovidStats() {
+		frame.getContentPane().remove(covidStatsTable);
+	}
+
 
 }
