@@ -73,6 +73,19 @@ public class GPACalculator extends JPanel {
 		}
 		
 		//User GPA is the number of raw total GPA points divided by the number of credits they took
+//		frame = new JFrame("GPA Calculator");
+//		panel = new JPanel();
+//		finalGPA = new JLabel("Your GPA for the semester is: " + rawTotalPoints / totalCredits);
+		
+//		frame.getContentPane().add(panel);
+//		frame.setSize(300, 100);
+//		frame.setVisible(true);
+//		frame.setResizable(false);
+		//thanks to https://stackoverflow.com/questions/2442599/how-to-set-jframe-to-appear-centered-regardless-of-monitor-resolution
+//		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//		frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+
+//		panel.add(finalGPA);
 		frame = new JFrame("GPA Calculator");
 		panel = new JPanel();
 		finalGPA = new JLabel("Your GPA for the semester is: " + rawTotalPoints / totalCredits);
