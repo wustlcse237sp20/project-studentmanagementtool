@@ -157,7 +157,6 @@ public class StudentManagerUI implements ActionListener{
 			}
 		});
 
-
 		//CREATE RSS FEED
 		txtNewsFeed = new JTextField();
 		txtNewsFeed.setBounds(0, 134, 234, 23);
@@ -318,6 +317,7 @@ public class StudentManagerUI implements ActionListener{
 
 	};
 
+	//refresh news feeds
 	private void refreshFeeds() {
 
 		tabbedPane.remove(rssFeed1);
@@ -329,9 +329,8 @@ public class StudentManagerUI implements ActionListener{
 		frame.getContentPane().repaint();
 		frame.getContentPane().revalidate();
 	};
-
-
 	
+	//refresh stats
 	private void refreshCovidStats() {
 		frame.getContentPane().remove(covidStatsTable);
 	}
