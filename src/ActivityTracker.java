@@ -8,7 +8,7 @@ public class ActivityTracker {
 	public static int numberOfActivities = 0;
 	static ArrayList<String> activities = new ArrayList<String>();
 	static JFrame frame;
-	static JPanel panel;
+	static JPanel panel; 
 	static JLabel finalGPA;
 	
 	public static void main(String [ ] args) {
@@ -18,6 +18,7 @@ public class ActivityTracker {
 		trackActivities(numberOfActivities);
 	}
 	
+	//tracks activites by looping through the amount of activities entered
 	public static ArrayList<String> trackActivities(double numberOfActivities) {
 		activities.clear();
 		
@@ -26,7 +27,7 @@ public class ActivityTracker {
 			
 			activities.add(newActivity);
 		}
-		
-		return activities;
+		 
+		return activities; 
 	}
 }
