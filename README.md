@@ -35,3 +35,18 @@
 
 
     To run the UI interface, first install gradle. To do that, for windows, use the command 'apt install gradle', for mac, use the command 'brew install gradle.' Next, navigate to the src folder and run the command 'javac StudentManagerUI.java' followed by the command 'java StudentManagerUI.'
+
+## Student Management Tool (Iteration 3)
+
+  * What user stories were completed this iteration?
+    * An activity tracker was added to the UI that allows the user to input the number of activities they want to complete for a day, then prompts them to enter the activities, and finally displays those activities with checkboxes next to them to indicate the activities have been completed
+    * The user interface was cleaned up in order to make for a better user experience
+
+  * Is there anything that you implemented but doesn't currently work?
+    * 
+
+  * What commands are needed to compile and run your code from the command line (or better yet, provide a script that people can use to run your program!)
+    * From now on, all the features you will need to see should be in our Student Manager UI Interface:
+
+
+    To run the UI interface, first install gradle. To do that, for windows, use the command 'apt install gradle', for mac, use the command 'brew install gradle.' Next, navigate to the src folder and run the command 'javac StudentManagerUI.java' followed by the command 'java StudentManagerUI.'
