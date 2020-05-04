@@ -2,13 +2,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import javax.swing.SpringLayout;
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,6 +24,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.DefaultListModel;
@@ -41,23 +42,33 @@ import javax.swing.JTable;
 
 public class StudentManagerUI implements ActionListener{
 
-
 	private JFrame frame;
 	private StudentToolController toolController;
 	private JTextField txtCovidStudentManagement;
 	private JTextField txtNewsFeed;
+	
+	//GPA Calc things
 	private JPanel GPAPanel;
-	private JButton button;
+	private JButton GPAbutton;
 	private JTextField numCourses;
 	private JLabel coursesLabel;
 	private JLabel finalGPA;
+	
+	//Activity Tracker things
+	private JPanel ActivityPanel;
+	private JPanel ActivityDisplayPanel;
+	private JButton ActivityButton;
+	private JTextField numActivities;
+	private JLabel activitiesLabel;
+	private Checkbox checkbox;
+
+	//RSS feed things
+	private JButton runGpaButton;
 	private JTabbedPane tabbedPane;
 	private JList<String> rssFeed1;
 	private JList<String> rssFeed2;
-
-	private JTextField textField;
+	private JTextField covidStatsHeaderText;
 	private JTable covidStatsTable;
-
 	private DefaultListModel<String> rssContainer2;
 
 
@@ -115,9 +126,13 @@ public class StudentManagerUI implements ActionListener{
 		txtCovidStudentManagement.setBackground(new Color(51, 102, 0));
 		txtCovidStudentManagement.setText("COVID-19 Student Management Tool");
 		txtCovidStudentManagement.setColumns(20);
+
 		
 		//test elements for the jlist 
 		DefaultListModel<String> rssContainer1 = toolController.getHeadlinesFeed1();
+
+		
+		//test elements for the jlist 
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setAutoscrolls(true);
@@ -125,15 +140,16 @@ public class StudentManagerUI implements ActionListener{
 		frame.getContentPane().add(tabbedPane);
 		tabbedPane.addTab("NPR News", generateNewsFeed(1));
 		tabbedPane.addTab("BBC News", generateNewsFeed(2));
-
+		
 		//refresh button to get updated news feeds    
-		JButton refreshButton = new JButton();
+
+		JButton refreshNewsButton = new JButton();
 		Image icon = new ImageIcon(this.getClass().getResource("refreshIcon.png")).getImage();
 		Image sizedIcon = icon.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
-		refreshButton.setIcon(new ImageIcon(sizedIcon));
-		refreshButton.setBounds(174, 134, 44, 23);
-		frame.getContentPane().add(refreshButton);
-		refreshButton.addActionListener(new ActionListener() {
+		refreshNewsButton.setIcon(new ImageIcon(sizedIcon));
+		refreshNewsButton.setBounds(174, 134, 44, 23);
+		frame.getContentPane().add(refreshNewsButton);
+		refreshNewsButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -141,7 +157,7 @@ public class StudentManagerUI implements ActionListener{
 			}
 		});
 
-		//create header for rss news feed
+		//CREATE RSS FEED
 		txtNewsFeed = new JTextField();
 		txtNewsFeed.setBounds(0, 134, 234, 23);
 		frame.getContentPane().add(txtNewsFeed);
@@ -151,53 +167,69 @@ public class StudentManagerUI implements ActionListener{
 		txtNewsFeed.setForeground(Color.white);
 		txtNewsFeed.setColumns(10);
 		txtNewsFeed.setHorizontalAlignment(JTextField.CENTER);
-
-		textField = new JTextField();
-		textField.setBounds(0, 47, 234, 18);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
-		textField.setBackground(new Color(51, 102, 0));
-		textField.setText("U.S. Covid-19 Statistics");
-		textField.setBorder(javax.swing.BorderFactory.createEmptyBorder()); //remove border
-		textField.setForeground(Color.white);
-		textField.setColumns(10);
-		textField.setHorizontalAlignment(JTextField.CENTER);
-
-
-		String[][] covidData = toolController.pullCovidStats();
-		String columnSpacer[]={"","",""};         
-
-		JTable covidStatsTable = new JTable(covidData,columnSpacer);
-		covidStatsTable.setGridColor(Color.DARK_GRAY);
-		covidStatsTable.setBackground(Color.LIGHT_GRAY);
-		covidStatsTable.setBounds(6, 67, 224, 64);
-		frame.getContentPane().add(covidStatsTable);
 		
+		
+		Image iconStats = new ImageIcon(this.getClass().getResource("refreshIcon.png")).getImage();
+		Image sizedIconStats = iconStats.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
+		JButton refreshButtonStats = new JButton();
+		refreshButtonStats.setIcon(new ImageIcon(sizedIconStats));
+		refreshButtonStats.setBounds(190, 45, 44, 23);
+		frame.getContentPane().add(refreshButtonStats);
+		refreshButtonStats.addActionListener(new ActionListener() {
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBackground(Color.LIGHT_GRAY);
-		scrollPane.setBorder(null);
-		scrollPane.setBounds(10, 46, 216, 83);
-		frame.getContentPane().add(scrollPane);
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				refreshStats();
+			}
+		});
+		
+		//CREATE COVID STATS HEADER
+		covidStatsHeaderText = new JTextField();
+		covidStatsHeaderText.setBounds(0, 47, 234, 18);
+		frame.getContentPane().add(covidStatsHeaderText);
+		covidStatsHeaderText.setColumns(10);
+		covidStatsHeaderText.setBackground(new Color(51, 102, 0));
+		covidStatsHeaderText.setText("U.S. Covid-19 Statistics");
+		covidStatsHeaderText.setBorder(javax.swing.BorderFactory.createEmptyBorder()); //remove border
+		covidStatsHeaderText.setForeground(Color.white);
+		covidStatsHeaderText.setColumns(10);
+		covidStatsHeaderText.setHorizontalAlignment(JTextField.CENTER);
+
+		
+		//add Covid Stats to UI
+		frame.getContentPane().add(generateCovidStats());
+
 	
 		
 		//CREATING PANEL FOR GPA CALCULATOR
-		button = new JButton("Run GPA Calculator");
-		button.addActionListener(this);
-		
+		GPAbutton = new JButton("Run GPA Calculator");
+		GPAbutton.addActionListener(this);
+		runGpaButton = new JButton("Run GPA Calculator");
+		runGpaButton.addActionListener(this);
 		numCourses = new JTextField(16);
-		
 		coursesLabel = new JLabel("Enter the number of courses you are taking");
-		
 		GPAPanel = new JPanel();
-		GPAPanel.setBounds(490, 350, 300, 100);
+		GPAPanel.setBounds(240, 350, 550, 100);
 		frame.getContentPane().add(GPAPanel);
 		GPAPanel.add(coursesLabel);
 		GPAPanel.add(numCourses);
-		GPAPanel.add(button);
+		GPAPanel.add(GPAbutton);
 		
-		
-
+		//CREATING PANEL FOR ACTIVITY TRACKER
+		ActivityButton = new JButton("Run Activity Tracker");
+		ActivityButton.addActionListener(this);
+		numActivities = new JTextField(16);
+		activitiesLabel = new JLabel("Enter the number of activities you want to complete today: ");
+		ActivityPanel = new JPanel();
+		ActivityPanel.setBounds(240, 50, 550, 100);
+		frame.getContentPane().add(ActivityPanel);
+		ActivityPanel.add(activitiesLabel);
+		ActivityPanel.add(numActivities);
+		ActivityPanel.add(ActivityButton);
+		ActivityDisplayPanel = new JPanel();
+		ActivityDisplayPanel.setLayout(new BoxLayout(ActivityDisplayPanel, BoxLayout.Y_AXIS));
+		ActivityDisplayPanel.setBounds(240, 150, 550, 200);
+		frame.getContentPane().add(ActivityDisplayPanel);
 	}
 	
 	//ACTION LISTENER - IF WE ADD MORE BUTTONS PUT THEM IN HERE IN AN ELSE-IF
@@ -205,19 +237,32 @@ public class StudentManagerUI implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		GPACalculator gpac = new GPACalculator();
+
+		ActivityTracker at = new ActivityTracker();
+
 		String action = e.getActionCommand();
 		if(action.equals("Run GPA Calculator")) {
 			finalGPA = new JLabel("Your GPA for the semester is: " + GPACalculator.calculateGPA(Integer.parseInt(numCourses.getText())));
 			GPAPanel.add(finalGPA);
+
+			frame.getContentPane().repaint();
+			frame.getContentPane().revalidate();
+		}
+		else if(action.equals("Run Activity Tracker")) {
+			ActivityDisplayPanel.removeAll();
+			ArrayList<String> actHolder = new ArrayList<String>();
+			actHolder = ActivityTracker.trackActivities(Integer.parseInt(numActivities.getText()));
+			
+			for(int i = 0; i < Integer.parseInt(numActivities.getText()); i++) {
+				activitiesLabel = new JLabel(actHolder.get(i));
+				checkbox = new Checkbox(actHolder.get(i));
+				ActivityDisplayPanel.add(checkbox);
+				frame.getContentPane().repaint();
+				frame.getContentPane().revalidate();
+			}
 		}
 	}
-
 	
-
-	 
-
-
-
 	/** generates a list of headlines in a separate method so they can be refreshed as needed
 	 * 
 	 * @param feedNumber - the value of the feed to be generated
@@ -280,22 +325,44 @@ public class StudentManagerUI implements ActionListener{
 		}
 
 	};
-
+	
+	/** refreshes news feeds by removing the panel then calling methods to regenerate the JLists
+	 * 
+	 */
 	private void refreshFeeds() {
 
-		 tabbedPane.remove(rssFeed1);
-		 tabbedPane.remove(rssFeed2);
-		 
-		 tabbedPane.addTab("NPR News", generateNewsFeed(1));
-		 tabbedPane.addTab("BBC News", generateNewsFeed(2));
-		 
-		 frame.getContentPane().repaint();
-		 frame.getContentPane().revalidate();
+		tabbedPane.remove(rssFeed1);
+		tabbedPane.remove(rssFeed2);
+			 
+		tabbedPane.addTab("NPR News", generateNewsFeed(1));
+		tabbedPane.addTab("BBC News", generateNewsFeed(2));
+			 
+		frame.getContentPane().repaint();
+		frame.getContentPane().revalidate();
 	};
-
 	
-	private void refreshCovidStats() {
-		frame.getContentPane().remove(covidStatsTable);
+	/** generates covid stats as a JTable to allow for refresh
+	 * 
+	 * @return covidStatsTable - a JTable
+	 */
+	private JTable generateCovidStats() {
+		String[][] covidData = toolController.pullCovidStats();
+		String columnSpacer[]={"","",""};         
+		covidStatsTable = new JTable(covidData,columnSpacer);
+		covidStatsTable.setGridColor(Color.DARK_GRAY);
+		covidStatsTable.setBackground(Color.LIGHT_GRAY);
+		covidStatsTable.setBounds(6, 67, 224, 64);
+		return covidStatsTable;
+		
 	}
+	
+	/** refreshes  by removing the panel then calling methods to regenerate the JLists
+	 * 
+	 */
+	private void refreshStats() {
+		frame.getContentPane().remove(covidStatsTable);
+		frame.getContentPane().add(generateCovidStats());
+	}
+
 
 }
