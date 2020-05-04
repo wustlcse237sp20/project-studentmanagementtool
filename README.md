@@ -41,6 +41,7 @@
 ## Student Management Tool (Iteration 3)
   * What user stories were completed this iteration?
     * An activity tracker was added to the UI that allows the user to input the number of activities they want to complete for a day, then prompts them to enter the activities, and finally displays those activities with checkboxes next to them to indicate the activities have been completed
+    * A refresh button was added to the covid-stats tracker tool to allow users to get up to date data without having to reopen the tool
     * The user interface was cleaned up in order to make for a better user experience
     
   * Is there anything that you implemented but doesn't currently work?
