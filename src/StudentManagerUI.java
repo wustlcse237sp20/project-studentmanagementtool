@@ -63,11 +63,11 @@ public class StudentManagerUI implements ActionListener{
 	private Checkbox checkbox;
 
 	//RSS feed things
-	private JButton button;
+	private JButton runGpaButton;
 	private JTabbedPane tabbedPane;
 	private JList<String> rssFeed1;
 	private JList<String> rssFeed2;
-	private JTextField textField;
+	private JTextField covidStatsHeaderText;
 	private JTable covidStatsTable;
 	private DefaultListModel<String> rssContainer2;
 
@@ -143,13 +143,13 @@ public class StudentManagerUI implements ActionListener{
 		
 		//refresh button to get updated news feeds    
 
-		JButton refreshButton = new JButton();
+		JButton refreshNewsButton = new JButton();
 		Image icon = new ImageIcon(this.getClass().getResource("refreshIcon.png")).getImage();
 		Image sizedIcon = icon.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
-		refreshButton.setIcon(new ImageIcon(sizedIcon));
-		refreshButton.setBounds(174, 134, 44, 23);
-		frame.getContentPane().add(refreshButton);
-		refreshButton.addActionListener(new ActionListener() {
+		refreshNewsButton.setIcon(new ImageIcon(sizedIcon));
+		refreshNewsButton.setBounds(174, 134, 44, 23);
+		frame.getContentPane().add(refreshNewsButton);
+		refreshNewsButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -168,35 +168,44 @@ public class StudentManagerUI implements ActionListener{
 		txtNewsFeed.setColumns(10);
 		txtNewsFeed.setHorizontalAlignment(JTextField.CENTER);
 		
-		//CREATE COVID STATS
-		textField = new JTextField();
-		textField.setBounds(0, 47, 234, 18);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
-		textField.setBackground(new Color(51, 102, 0));
-		textField.setText("U.S. Covid-19 Statistics");
-		textField.setBorder(javax.swing.BorderFactory.createEmptyBorder()); //remove border
-		textField.setForeground(Color.white);
-		textField.setColumns(10);
-		textField.setHorizontalAlignment(JTextField.CENTER);
-		String[][] covidData = toolController.pullCovidStats();
-		String columnSpacer[]={"","",""};         
-		JTable covidStatsTable = new JTable(covidData,columnSpacer);
-		covidStatsTable.setGridColor(Color.DARK_GRAY);
-		covidStatsTable.setBackground(Color.LIGHT_GRAY);
-		covidStatsTable.setBounds(6, 67, 224, 64);
-		frame.getContentPane().add(covidStatsTable);
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBackground(Color.LIGHT_GRAY);
-		scrollPane.setBorder(null);
-		scrollPane.setBounds(10, 46, 216, 83);
-		frame.getContentPane().add(scrollPane);
+		
+		Image iconStats = new ImageIcon(this.getClass().getResource("refreshIcon.png")).getImage();
+		Image sizedIconStats = iconStats.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
+		JButton refreshButtonStats = new JButton();
+		refreshButtonStats.setIcon(new ImageIcon(sizedIconStats));
+		refreshButtonStats.setBounds(190, 45, 44, 23);
+		frame.getContentPane().add(refreshButtonStats);
+		refreshButtonStats.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				refreshStats();
+			}
+		});
+		
+		//CREATE COVID STATS HEADER
+		covidStatsHeaderText = new JTextField();
+		covidStatsHeaderText.setBounds(0, 47, 234, 18);
+		frame.getContentPane().add(covidStatsHeaderText);
+		covidStatsHeaderText.setColumns(10);
+		covidStatsHeaderText.setBackground(new Color(51, 102, 0));
+		covidStatsHeaderText.setText("U.S. Covid-19 Statistics");
+		covidStatsHeaderText.setBorder(javax.swing.BorderFactory.createEmptyBorder()); //remove border
+		covidStatsHeaderText.setForeground(Color.white);
+		covidStatsHeaderText.setColumns(10);
+		covidStatsHeaderText.setHorizontalAlignment(JTextField.CENTER);
+
+		
+		//add Covid Stats to UI
+		frame.getContentPane().add(generateCovidStats());
+
+	
 		
 		//CREATING PANEL FOR GPA CALCULATOR
 		GPAbutton = new JButton("Run GPA Calculator");
 		GPAbutton.addActionListener(this);
-		button = new JButton("Run GPA Calculator");
-		button.addActionListener(this);
+		runGpaButton = new JButton("Run GPA Calculator");
+		runGpaButton.addActionListener(this);
 		numCourses = new JTextField(16);
 		coursesLabel = new JLabel("Enter the number of courses you are taking");
 		GPAPanel = new JPanel();
@@ -316,8 +325,10 @@ public class StudentManagerUI implements ActionListener{
 		}
 
 	};
-
-	//refresh news feeds
+	
+	/** refreshes news feeds by removing the panel then calling methods to regenerate the JLists
+	 * 
+	 */
 	private void refreshFeeds() {
 
 		tabbedPane.remove(rssFeed1);
@@ -330,9 +341,27 @@ public class StudentManagerUI implements ActionListener{
 		frame.getContentPane().revalidate();
 	};
 	
-	//refresh stats
-	private void refreshCovidStats() {
+	/** generates covid stats as a JTable to allow for refresh
+	 * 
+	 * @return covidStatsTable - a JTable
+	 */
+	private JTable generateCovidStats() {
+		String[][] covidData = toolController.pullCovidStats();
+		String columnSpacer[]={"","",""};         
+		covidStatsTable = new JTable(covidData,columnSpacer);
+		covidStatsTable.setGridColor(Color.DARK_GRAY);
+		covidStatsTable.setBackground(Color.LIGHT_GRAY);
+		covidStatsTable.setBounds(6, 67, 224, 64);
+		return covidStatsTable;
+		
+	}
+	
+	/** refreshes  by removing the panel then calling methods to regenerate the JLists
+	 * 
+	 */
+	private void refreshStats() {
 		frame.getContentPane().remove(covidStatsTable);
+		frame.getContentPane().add(generateCovidStats());
 	}
 
 
